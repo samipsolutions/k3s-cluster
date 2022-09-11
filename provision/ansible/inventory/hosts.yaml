@@ -1,0 +1,24 @@
+---
+kubernetes:
+  children:
+    master:
+      hosts:
+        k8s-master1:
+          ansible_host: 10.0.210.10
+      vars:
+        ansible_user: sm
+        k3s_become: true
+    worker:
+      hosts:
+        k8s-worker1:
+          ansible_host: 10.0.210.11
+          k3s_become: true
+        k8s-worker2:
+          ansible_host: 10.0.210.12
+          k3s_become: true
+        k8s-worker3:
+          ansible_host: 10.0.210.13
+          k3s_become: true
+      vars:
+        ansible_user: sm
+        k3s_become: true
