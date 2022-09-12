@@ -5,31 +5,32 @@
 # (bool) Specify if a host (or host group) are part of the control plane
 k3s_control_node: true
 
+k3s_disable_kube_proxy: true
+
 # (dict) k3s settings for all control-plane nodes
 k3s_server:
-  node-ip: "{{ ansible_host }}"
+  node-ip: "{{ ansible_default_ipv6.address }}"
+  #node-ip: "{{ ansible_default_ipv6.address }},{{ ansible_host }}"
+  # node-ip: "{{ ansible_host }},{{ ansible_default_ipv6.address }}"
   tls-san:
-    # kube-vip
-    - "{{ kubevip_address }}"
+#     - "{{ k3s_registration_address }}"
+    - "{{ ansible_default_ipv6.address }}"
   # Disable Docker - this will use the default containerd CRI
   docker: false
-  flannel-backend: "none" # This needs to be in quotes
+  flannel-backend: "host-gw" # This needs to be in quotes
   disable:
-    # Disable flannel - replaced with Calico
-    - flannel
-    # Disable traefik - replaced with ingress-nginx
     - traefik
-    # Disable servicelb - replaced with metallb and install with Flux
     - servicelb
-    # Disable metrics-server - installed with Flux
     - metrics-server
   disable-network-policy: true
   disable-cloud-controller: true
   write-kubeconfig-mode: "644"
   # Network CIDR to use for pod IPs
-  cluster-cidr: "10.42.0.0/16"
+  # cluster-cidr: "10.45.0.0/16,fd88:3377:4473::/48"
+  cluster-cidr: "2001:67c:1104:c000::/56"
   # Network CIDR to use for service IPs
-  service-cidr: "10.43.0.0/16"
+  # service-cidr: "10.46.0.0/16,2001:67c:1104:ad::e:0/112"
+  service-cidr: "2001:67c:1104:ad::e:0/112"
   kubelet-arg:
     # Allow k8s services to contain TCP and UDP on the same port
     - "feature-gates=MixedProtocolLBService=true"
@@ -38,11 +39,6 @@ k3s_server:
     - "feature-gates=MixedProtocolLBService=true"
     # Required to monitor kube-controller-manager with kube-prometheus-stack
     - "bind-address=0.0.0.0"
-  kube-proxy-arg:
-    # Allow k8s services to contain TCP and UDP on the same port
-    - "feature-gates=MixedProtocolLBService=true"
-    # Required to monitor kube-proxy with kube-prometheus-stack
-    - "metrics-bind-address=0.0.0.0"
   kube-scheduler-arg:
     # Allow k8s services to contain TCP and UDP on the same port
     - "feature-gates=MixedProtocolLBService=true"
@@ -53,5 +49,3 @@ k3s_server:
   kube-apiserver-arg:
     # Allow k8s services to contain TCP and UDP on the same port
     - "feature-gates=MixedProtocolLBService=true"
-    # Required for HAProxy health-checks
-    - "anonymous-auth=true"
