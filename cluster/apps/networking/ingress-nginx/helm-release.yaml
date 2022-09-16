@@ -29,6 +29,8 @@ spec:
     controller:
       replicaCount: 1
       service:
+        ipFamilies:
+          - IPv6
         annotations:
           metallb.universe.tf/loadBalancerIPs: |-
             2001:67c:1104:c0ff::443
