@@ -3,7 +3,7 @@ apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
   name: vmnet-router-v6
-  namespace: kube-system
+  namespace: networking
 spec:
   holdTime: 1m30s
   myASN: 213021
@@ -17,7 +17,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: ipv6
-  namespace: kube-system
+  namespace: networking
 spec:
   addresses:
     - 2001:67c:1104:c0fe::/112
@@ -27,7 +27,7 @@ apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
   name: ipv4
-  namespace: kube-system
+  namespace: networking
 spec:
   addresses:
     - 10.46.0.0/16
@@ -37,7 +37,7 @@ apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
   name: bgp-other
-  namespace: kube-system
+  namespace: networking
 spec:
   ipAddressPools:
     - ipv4
