@@ -9,12 +9,13 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 0.12.1
+      version: 0.13.5
       sourceRef:
         kind: HelmRepository
         name: metallb
         namespace: flux-system
   install:
+    crds: CreateReplace
     createNamespace: true
     remediation:
       retries: 5
@@ -22,9 +23,39 @@ spec:
     remediation:
       retries: 5
   values:
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - "${METALLB_LB_RANGE}"
+    controller:
+      logLevel: debug
+    speaker:
+      tolerateMaster: true
+      logLevel: info
+      frr:
+        enabled: true
+        image:
+          repository: docker.io/frrouting/frr
+          tag: v7.5.1
+    crds:
+      enabled: true
+  postRenderers:
+    - kustomize:
+        patchesJson6902:
+          - target:
+              version: v1
+              kind: DaemonSet
+              name: metallb-speaker
+            patch:
+              - op: add
+                path: /spec/template/spec/initContainers/3
+                value:
+                  name: routes
+                  command:
+                    - /bin/sh
+                    - -c
+                    - |-
+                      ip r add local 10.46.0.0/24 dev lo table local proto 66 scope host || true
+                      ip -6 r add local 2001:67c:1104:c0ff::/112 dev lo table local proto 67 scope host || true
+                  image: alpine
+                  imagePullPolicy: IfNotPresent
+                  securityContext:
+                    capabilities:
+                      add:
+                        - NET_ADMIN
