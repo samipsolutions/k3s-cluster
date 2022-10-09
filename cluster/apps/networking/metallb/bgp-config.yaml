@@ -37,7 +37,7 @@ apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
   name: bgp-other
-  namespace: metallb-system
+  namespace: kube-system
 spec:
   ipAddressPools:
     - ipv4
