@@ -1,0 +1,44 @@
+---
+apiVersion: metallb.io/v1beta2
+kind: BGPPeer
+metadata:
+  name: vmnet-router-v6
+  namespace: kube-system
+spec:
+  holdTime: 1m30s
+  myASN: 213021
+  peerASN: 213021
+  peerAddress: 2001:67c:1104:ad::2
+  peerPort: 179
+  # https://github.com/metallb/metallb/issues/1537
+  ebgpMultiHop: false
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ipv6
+  namespace: kube-system
+spec:
+  addresses:
+    - 2001:67c:1104:c0fe::/112
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ipv4
+  namespace: kube-system
+spec:
+  addresses:
+    - 10.46.0.0/16
+  avoidBuggyIPs: true
+---
+apiVersion: metallb.io/v1beta1
+kind: BGPAdvertisement
+metadata:
+  name: bgp-other
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - ipv4
+    - ipv6
