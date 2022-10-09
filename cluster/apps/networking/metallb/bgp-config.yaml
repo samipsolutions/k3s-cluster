@@ -41,7 +41,7 @@ metadata:
 spec:
   addresses:
     - 185.218.193.60/32
-    - 2001:67c:1104:c0ff::443
+    - 2001:67c:1104:c0ff::443/128
 ---
 apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
