@@ -19,7 +19,6 @@ spec:
   interval: 10m
   path: ./cluster/flux
   prune: true
-  wait: false
   sourceRef:
     kind: GitRepository
     name: flux-cluster
