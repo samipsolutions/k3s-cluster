@@ -31,6 +31,7 @@ spec:
     ipv6NativeRoutingCIDR: "2001:67c:1104:c000::/56"
     k8sServiceHost: "10.0.210.10"
     k8sServicePort: 6443
+    enableIPv6Masquerade: false
     loadBalancer:
       algorithm: "maglev"
       mode: "dsr"
