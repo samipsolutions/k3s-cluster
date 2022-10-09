@@ -2,13 +2,13 @@
 apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
-  name: vmnet-router-v6
+  name: vmnet-router-v4
   namespace: metallb-system
 spec:
   holdTime: 1m30s
   myASN: 213021
   peerASN: 213021
-  peerAddress: 2001:67c:1104:ad::2
+  peerAddress: 10.0.210.1
   peerPort: 179
   # https://github.com/metallb/metallb/issues/1537
   ebgpMultiHop: false
