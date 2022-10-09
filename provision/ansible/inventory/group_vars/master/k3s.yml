@@ -9,28 +9,33 @@ k3s_disable_kube_proxy: true
 
 # (dict) k3s settings for all control-plane nodes
 k3s_server:
-  node-ip: "{{ ansible_default_ipv6.address }}"
+  #node-ip: "{{ ansible_default_ipv6.address }}"
   #node-ip: "{{ ansible_default_ipv6.address }},{{ ansible_host }}"
-  # node-ip: "{{ ansible_host }},{{ ansible_default_ipv6.address }}"
+  node-ip: "{{ ansible_host }},{{ ansible_default_ipv6.address }}"
   tls-san:
-#     - "{{ k3s_registration_address }}"
+    - "{{ k3s_registration_address }}"
     - "{{ ansible_default_ipv6.address }}"
   # Disable Docker - this will use the default containerd CRI
   docker: false
-  flannel-backend: "host-gw" # This needs to be in quotes
+  #flannel-backend: "host-gw" # This needs to be in quotes
+  flannel-backend: none
   disable:
+    - flannel
     - traefik
     - servicelb
     - metrics-server
+    - local-storage
+    - coredns
   disable-network-policy: true
   disable-cloud-controller: true
   write-kubeconfig-mode: "644"
   # Network CIDR to use for pod IPs
-  # cluster-cidr: "10.45.0.0/16,fd88:3377:4473::/48"
-  cluster-cidr: "2001:67c:1104:c000::/56"
+  cluster-cidr: "10.45.0.0/16,2001:67c:1104:c000::/56"
+  #cluster-cidr: "10.45.0.0/16,fd88:3377:4473::/48"
+  #cluster-cidr: "2001:67c:1104:c000::/56"
   # Network CIDR to use for service IPs
-  # service-cidr: "10.46.0.0/16,2001:67c:1104:ad::e:0/112"
-  service-cidr: "2001:67c:1104:ad::e:0/112"
+  service-cidr: "10.46.0.0/16,2001:67c:1104:c0ff::/112"
+  #service-cidr: "2001:67c:1104:c0ff::/112"
   kubelet-arg:
     # Allow k8s services to contain TCP and UDP on the same port
     - "feature-gates=MixedProtocolLBService=true"
