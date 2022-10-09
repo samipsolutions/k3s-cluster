@@ -12,3 +12,4 @@ resources:
   - metrics-server.yaml
   - stakater.yaml
   - weaveworks-kured.yaml
+  - cilium-charts.yaml
