@@ -46,18 +46,10 @@ spec:
 apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
-  name: bgp-lb
-  namespace: metallb-system
-spec:
-  ipAddressPools:
-    - nginx
----
-apiVersion: metallb.io/v1beta1
-kind: BGPAdvertisement
-metadata:
   name: bgp-other
   namespace: metallb-system
 spec:
   ipAddressPools:
+    - nginx
     - ipv4
     - ipv6
