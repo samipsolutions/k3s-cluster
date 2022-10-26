@@ -20,6 +20,14 @@ spec:
       enabled: true
     ui:
       enabled: true
+      ingress:
+        enabled: true
+        ingressClassName: "nginx"
+        hosts:
+          - host: &host "kv-rp.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
 
     global:
       plugins:
