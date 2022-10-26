@@ -13,4 +13,6 @@ resources:
   - k8s-gateway.yaml
   - kubernetes-sigs-descheduler-charts.yaml
   - kubernetes-sigs-metrics-server-charts.yaml
+  - kyverno-charts.yaml
+  - longhorn-charts.yaml
   - metallb-charts.yaml
