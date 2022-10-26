@@ -3,13 +3,13 @@ kind: Kustomization
 resources:
   - bitnami.yaml
   - bjw-s.yaml
-  - external-dns.yaml
+  - cert-manager-webhook-powerdns-charts.yaml
+  - cilium-charts.yaml
+  - external-dns-charts.yaml
+  - gitea-charts.yaml
   - hajimari.yaml
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-gateway.yaml
-  - metallb.yaml
-  - metrics-server.yaml
-  - stakater.yaml
-  - weaveworks-kured.yaml
-  - cilium-charts.yaml
+  - kubernetes-sigs-descheduler-charts.yaml
+  - kubernetes-sigs-metrics-server-charts.yaml
