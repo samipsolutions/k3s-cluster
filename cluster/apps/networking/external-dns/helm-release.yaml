@@ -5,46 +5,31 @@ metadata:
   name: external-dns
   namespace: networking
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://kubernetes-sigs.github.io/external-dns
       chart: external-dns
       version: 1.11.0
       sourceRef:
         kind: HelmRepository
-        name: external-dns
+        name: external-dns-charts
         namespace: flux-system
-      interval: 15m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-  upgrade:
-    remediation:
-      retries: 5
+      interval: 5m
   values:
+    image:
+      repository: docker.io/samip537/external-dns
+      tag: v1.2.0
     interval: 5m
     logLevel: debug
-    provider: cloudflare
-    env:
-      - name: CF_API_EMAIL
-        valueFrom:
-          secretKeyRef:
-            name: external-dns-cloud-credentials
-            key: email
-      - name: CF_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: external-dns-cloud-credentials
-            key: api-key
+    provider: pdns
     extraArgs:
-      - --cloudflare-proxied
-      - --annotation-filter=external-dns/is-public in (true)
+      - --pdns-server=${PDNS_SAMIPSOLUTIONS_API_URL}
+      - --pdns-api-key=${PDNS_SAMIPSOLUTIONS_API_KEY}
     policy: sync
     sources:
       - ingress
-    txtPrefix: "k8s."
-    txtOwnerId: "default"
+    txtOwnerId: "colo-external-dns"
     domainFilters:
       - "${SECRET_DOMAIN}"
     resources:
