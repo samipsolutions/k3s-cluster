@@ -5,22 +5,21 @@ metadata:
   name: reloader
   namespace: kube-system
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://stakater.github.io/stakater-charts
       chart: reloader
       version: v0.0.124
       sourceRef:
         kind: HelmRepository
-        name: stakater
+        name: stakater-charts
         namespace: flux-system
-      interval: 15m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 5
-  upgrade:
-    remediation:
-      retries: 5
+      interval: 5m
   values:
+    nameOverride: reloader
     fullnameOverride: reloader
+    reloader:
+      podMonitor:
+        enabled: true
+        namespace: kube-system
