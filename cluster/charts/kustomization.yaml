@@ -14,5 +14,6 @@ resources:
   - kubernetes-sigs-descheduler-charts.yaml
   - kubernetes-sigs-metrics-server-charts.yaml
   - kyverno-charts.yaml
+  - kyverno-policy-reporter-charts.yaml
   - longhorn-charts.yaml
   - metallb-charts.yaml
