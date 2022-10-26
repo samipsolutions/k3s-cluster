@@ -6,3 +6,5 @@ resources:
   # - kured
   - reloader
   - cilium
+  - kyverno
+  - descheduler
