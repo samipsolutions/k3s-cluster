@@ -1,4 +1,4 @@
-# k3s cluster backed by Flux
+# k3s cluster backed by Flux (archived due to colo costs)
 
 Highly opinionated template for deploying a single [k3s](https://k3s.io) cluster with [Ansible](https://www.ansible.com) and [Terraform](https://www.terraform.io) backed by [Flux](https://toolkit.fluxcd.io/) and [SOPS](https://toolkit.fluxcd.io/guides/mozilla-sops/).
 
